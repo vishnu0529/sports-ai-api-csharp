@@ -5,7 +5,9 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportsAIPredictionAPI", "SportsAIPredictionAPI.csproj", "{40BF9676-C862-0892-5A72-F611396612F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportsAIPredictionAPI.Tests", "..\SportsAIPredictionAPI.Tests\SportsAIPredictionAPI.Tests.csproj", "{30A2D20C-531A-4764-8852-A24E8FEE8806}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0AB3BF05-4346-4AA6-1389-037BE0695223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportsAIPredictionAPI.Tests", "Tests\SportsAIPredictionAPI.Tests.csproj", "{C459E1EE-2B82-4298-8B77-9B54B65DD833}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,21 +31,24 @@ Global
 		{40BF9676-C862-0892-5A72-F611396612F6}.Release|x64.Build.0 = Release|Any CPU
 		{40BF9676-C862-0892-5A72-F611396612F6}.Release|x86.ActiveCfg = Release|Any CPU
 		{40BF9676-C862-0892-5A72-F611396612F6}.Release|x86.Build.0 = Release|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Debug|x64.Build.0 = Debug|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Debug|x86.Build.0 = Debug|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Release|Any CPU.Build.0 = Release|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Release|x64.ActiveCfg = Release|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Release|x64.Build.0 = Release|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Release|x86.ActiveCfg = Release|Any CPU
-		{30A2D20C-531A-4764-8852-A24E8FEE8806}.Release|x86.Build.0 = Release|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Debug|x64.Build.0 = Debug|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Debug|x86.Build.0 = Debug|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Release|x64.ActiveCfg = Release|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Release|x64.Build.0 = Release|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Release|x86.ActiveCfg = Release|Any CPU
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C459E1EE-2B82-4298-8B77-9B54B65DD833} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {143D858E-C5E2-4AB7-983D-D5ADB8AC4A66}
