@@ -69,6 +69,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
+app.UseMiddleware<SportsAIPredictionAPI.Middleware.ExceptionHandlingMiddleware>();
+
+app.UseMiddleware<SportsAIPredictionAPI.Middleware.ExceptionHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
