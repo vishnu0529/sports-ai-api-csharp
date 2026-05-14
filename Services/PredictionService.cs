@@ -8,11 +8,13 @@ namespace SportsAIPredictionAPI.Services;
 public class PredictionService : IPredictionService
 {
     private readonly AppDbContext _context;
+    private readonly IAIService _aiService;
     private readonly ILogger<PredictionService> _logger;
 
-    public PredictionService(AppDbContext context, ILogger<PredictionService> logger)
+    public PredictionService(AppDbContext context, IAIService aiService, ILogger<PredictionService> logger)
     {
         _context = context;
+        _aiService = aiService;
         _logger = logger;
     }
 
@@ -59,8 +61,8 @@ public class PredictionService : IPredictionService
 
     public async Task<PredictionDto> CreateAsync(CreatePredictionRequest request, int userId)
     {
-        var outcome = PredictOutcome(request.HomeTeam, request.AwayTeam);
-        var confidence = GenerateConfidence();
+        var (outcome, confidence) = await _aiService.PredictAsync(
+            request.HomeTeam, request.AwayTeam, request.Sport);
 
         var prediction = new Prediction
         {
@@ -86,16 +88,5 @@ public class PredictionService : IPredictionService
             Confidence = prediction.Confidence,
             CreatedAt = prediction.CreatedAt
         };
-    }
-
-    private static string PredictOutcome(string homeTeam, string awayTeam)
-    {
-        var outcomes = new[] { $"{homeTeam} Win", $"{awayTeam} Win", "Draw" };
-        return outcomes[new Random().Next(outcomes.Length)];
-    }
-
-    private static double GenerateConfidence()
-    {
-        return Math.Round(new Random().NextDouble() * 40 + 55, 2);
     }
 }

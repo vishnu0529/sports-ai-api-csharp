@@ -49,6 +49,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=sportsai.db"));
 
 builder.Services.AddScoped<ISportEventService, SportEventService>();
+builder.Services.AddScoped<IAIService, AIService>();
 builder.Services.AddScoped<IPredictionService, PredictionService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
