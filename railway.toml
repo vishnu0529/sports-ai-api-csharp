@@ -1,0 +1,6 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "dotnet SportsAIPredictionAPI.dll"
+healthcheckPath = "/health"
