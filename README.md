@@ -1,103 +1,67 @@
-![CI](https://github.com/vishnu0529/sports-ai-api/actions/workflows/ci.yml/badge.svg)
-![Python](https://img.shields.io/badge/python-3.11-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.110-green)
+![CI](https://github.com/vishnu0529/sports-ai-api-csharp/actions/workflows/ci.yml/badge.svg)
+![.NET](https://img.shields.io/badge/.NET-10.0-purple)
+![C#](https://img.shields.io/badge/C%23-ASP.NET%20Core-blue)
+![JWT](https://img.shields.io/badge/Auth-JWT-orange)
 
-# Sports AI API
+# Sports AI Prediction API (C# / ASP.NET Core)
 
-AI-powered sports match predictions using OpenAI.
+A professional REST API for AI-powered sports predictions, rebuilt from Python/FastAPI to C#/ASP.NET Core.
 
-**Live demo:** https://sports-ai-api-euyu.onrender.com/docs
+> Companion project to [sports-ai-api](https://github.com/vishnu0529/sports-ai-api) (Python/FastAPI version)
 
-## Quick start
+## Tech Stack
+| Layer | Technology |
+|---|---|
+| Framework | ASP.NET Core 10 |
+| Language | C# |
+| Database | SQLite (local) / Azure SQL (production) |
+| ORM | Entity Framework Core 10 |
+| Authentication | JWT Bearer Tokens |
+| Password Hashing | BCrypt |
+| API Docs | Swagger / OpenAPI |
+| Deployment | Azure App Service |
+| CI/CD | GitHub Actions |
 
+## API Endpoints
+
+### Auth (Public)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/auth/register | Create a new account |
+| POST | /api/auth/login | Login and get JWT token |
+
+### Sport Events (Protected)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/sportevent | List all sport events |
+| POST | /api/sportevent | Create a sport event |
+| DELETE | /api/sportevent/{id} | Delete a sport event |
+
+### Predictions (Protected)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/prediction | Get all my predictions |
+| POST | /api/prediction | Submit a new prediction |
+
+## Getting Started
 ```bash
-curl -X POST https://sports-ai-api-euyu.onrender.com/predict \
-  -H "Content-Type: application/json" \
-  -d '{"team_a":"Arsenal","team_b":"Chelsea","sport":"football"}'
+git clone https://github.com/vishnu0529/sports-ai-api-csharp.git
+cd sports-ai-api-csharp
+dotnet restore
+dotnet ef database update
+dotnet run
 ```
+Open Swagger UI: http://localhost:5139/swagger
 
-## Run locally
+## Roadmap
+- [x] JWT Authentication
+- [x] Sport Event endpoints
+- [x] Prediction endpoints
+- [x] Service layer architecture
+- [ ] Global error handling middleware
+- [ ] OpenAI integration
+- [ ] Unit tests (xUnit)
+- [ ] Azure App Service deployment
 
-```bash
-git clone https://github.com/vishnu0529/sports-ai-api
-cd sports-ai-api
-pip install -r requirements.txt
-OPENAI_API_KEY=your_key uvicorn app.main:app --reload
-```
-
-Open http://localhost:8000/docs for interactive API docs.
-
-## Project layout
-
-```
-app/
-├── __init__.py
-├── main.py
-├── routes/
-│   └── predictions.py
-├── models/
-│   └── schemas.py
-└── services/
-    └── ai_service.py
-```
-
-## Endpoints
-
-- `GET /`
-- `GET /health`
-- `POST /register`
-- `POST /login`
-- `POST /predict`
-- `POST /predict/ai`
-- `GET /predictions`
-- `GET /supported-sports`
-
-## Auth & demo flow
-
-Register a new user:
-
-```bash
-curl -X POST https://sports-ai-api-euyu.onrender.com/register \
-  -H "Content-Type: application/json" \
-  -d '{"username":"demo_user","password":"demo_pass"}'
-```
-
-Login to get a bearer token:
-
-```bash
-curl -X POST https://sports-ai-api-euyu.onrender.com/login \
-  -F "username=demo_user" \
-  -F "password=demo_pass"
-```
-
-Use the token for predictions:
-
-```bash
-curl -X POST https://sports-ai-api-euyu.onrender.com/predict \
-  -H "Authorization: Bearer <ACCESS_TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{"team_a":"Arsenal","team_b":"Chelsea","sport":"football"}'
-```
-
-Call AI-powered predictions:
-
-```bash
-curl -X POST https://sports-ai-api-euyu.onrender.com/predict/ai \
-  -H "Authorization: Bearer <ACCESS_TOKEN>" \
-  -H "Content-Type: application/json" \
-  -d '{"team_a":"Arsenal","team_b":"Chelsea","sport":"football"}'
-```
-
-## AI prediction
-
-Set `OPENAI_API_KEY` before using the AI-powered endpoint:
-
-```bash
-export OPENAI_API_KEY="your-openai-api-key"
-```
-
-Then call `/predict/ai` with the same JSON body as `/predict`.
-
-## Deployment
-
-Use `Procfile` for platforms like Railway or Render.
+## Author
+Vishnu — https://github.com/vishnu0529
