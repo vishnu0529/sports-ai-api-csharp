@@ -51,6 +51,9 @@ Try it live:
 - Login: `POST /api/auth/login`
 - Predict: `POST /api/prediction`
 
+## Live Demo
+🌐 **https://sports-ai-api-csharp-production.up.railway.app/swagger**
+
 ## Getting Started
 ```bash
 git clone https://github.com/vishnu0529/sports-ai-api-csharp.git
