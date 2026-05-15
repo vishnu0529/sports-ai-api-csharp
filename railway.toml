@@ -5,3 +5,5 @@ buildCommand = "dotnet publish SportsAIPredictionAPI.csproj -c Release -o out"
 [deploy]
 startCommand = "dotnet out/SportsAIPredictionAPI.dll"
 healthcheckPath = "/health"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"

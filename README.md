@@ -43,6 +43,14 @@ A professional REST API for AI-powered sports predictions, rebuilt from Python/F
 | GET | /api/prediction | Get all my predictions |
 | POST | /api/prediction | Submit a new prediction |
 
+## Live Demo
+🌐 **https://sports-ai-api-csharp-production.up.railway.app/swagger**
+
+Try it live:
+- Register: `POST /api/auth/register`
+- Login: `POST /api/auth/login`
+- Predict: `POST /api/prediction`
+
 ## Getting Started
 ```bash
 git clone https://github.com/vishnu0529/sports-ai-api-csharp.git
