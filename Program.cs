@@ -74,8 +74,6 @@ var app = builder.Build();
 
 app.UseMiddleware<SportsAIPredictionAPI.Middleware.ExceptionHandlingMiddleware>();
 
-app.UseMiddleware<SportsAIPredictionAPI.Middleware.ExceptionHandlingMiddleware>();
-
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<SportsAIPredictionAPI.Data.AppDbContext>();
