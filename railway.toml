@@ -1,6 +1,7 @@
 [build]
 builder = "RAILPACK"
+buildCommand = "dotnet publish SportsAIPredictionAPI.csproj -c Release -o out"
 
 [deploy]
-startCommand = "dotnet SportsAIPredictionAPI.dll"
+startCommand = "dotnet out/SportsAIPredictionAPI.dll"
 healthcheckPath = "/health"
