@@ -1,6 +1,6 @@
 [build]
 builder = "RAILPACK"
-buildCommand = "dotnet publish SportsAIPredictionAPI.csproj -c Release -o out"
+buildCommand = "dotnet publish SportsAIPredictionAPI.csproj -c Release -r linux-x64 --self-contained true -o out"
 
 [deploy]
-startCommand = "dotnet out/SportsAIPredictionAPI.dll"
+startCommand = "./out/SportsAIPredictionAPI"
