@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sports AI Prediction API</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+  
+  nav { background: #1e293b; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+  nav h1 { color: #38bdf8; font-size: 1.2rem; font-weight: 600; }
+  nav a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; }
+  nav a:hover { color: #38bdf8; }
+
+  .hero { text-align: center; padding: 4rem 2rem 2rem; }
+  .hero h2 { font-size: 2.5rem; font-weight: 700; color: #f1f5f9; margin-bottom: 1rem; }
+  .hero p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; }
+  .badge { display: inline-block; background: #0ea5e9; color: white; padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.8rem; margin: 0.2rem; }
+  .badge.green { background: #10b981; }
+  .badge.purple { background: #8b5cf6; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+  
+  .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+  .card h3 { color: #38bdf8; margin-bottom: 1rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  
+  .form-group { margin-bottom: 1rem; }
+  label { display: block; color: #94a3b8; font-size: 0.85rem; margin-bottom: 0.4rem; }
+  input { width: 100%; padding: 0.6rem 0.8rem; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #e2e8f0; font-size: 0.95rem; }
+  input:focus { outline: none; border-color: #38bdf8; }
+  
+  .btn { padding: 0.65rem 1.5rem; border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: opacity 0.2s; }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: #0ea5e9; color: white; }
+  .btn-success { background: #10b981; color: white; }
+  .btn-purple { background: #8b5cf6; color: white; }
+  .btn-sm { padding: 0.4rem 1rem; font-size: 0.85rem; }
+
+  .tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .tab { padding: 0.5rem 1.2rem; border-radius: 8px; border: 1px solid #334155; background: transparent; color: #94a3b8; cursor: pointer; font-size: 0.9rem; }
+  .tab.active { background: #0ea5e9; color: white; border-color: #0ea5e9; }
+
+  .result { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; margin-top: 1rem; font-size: 0.85rem; }
+  .result.success { border-color: #10b981; }
+  .result.error { border-color: #ef4444; }
+  
+  .prediction-card { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 1rem; margin-bottom: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+  .prediction-card .teams { font-weight: 600; color: #f1f5f9; }
+  .prediction-card .outcome { color: #10b981; font-weight: 600; }
+  .confidence-bar { height: 6px; background: #334155; border-radius: 999px; margin-top: 0.4rem; overflow: hidden; }
+  .confidence-fill { height: 100%; background: linear-gradient(90deg, #0ea5e9, #10b981); border-radius: 999px; }
+  
+  .token-display { background: #0f172a; border: 1px solid #10b981; border-radius: 8px; padding: 0.8rem; margin-top: 0.8rem; font-size: 0.75rem; color: #10b981; word-break: break-all; }
+  
+  .status { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+  
+  .section-title { color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+  
+  #predictions-list { min-height: 100px; }
+  .empty { color: #475569; text-align: center; padding: 2rem; font-size: 0.9rem; }
+
+  footer { text-align: center; padding: 2rem; color: #475569; font-size: 0.85rem; border-top: 1px solid #1e293b; margin-top: 2rem; }
+  footer a { color: #38bdf8; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <h1>⚽ Sports AI Prediction API</h1>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <span class="status"><span class="dot"></span> Live</span>
+    <a href="/swagger" target="_blank">Swagger Docs →</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h2>AI-Powered Sports Predictions</h2>
+  <p>A professional REST API built with ASP.NET Core 10, C#, Entity Framework Core, and JWT Authentication.</p>
+  <div>
+    <span class="badge">ASP.NET Core 10</span>
+    <span class="badge green">C#</span>
+    <span class="badge purple">JWT Auth</span>
+    <span class="badge">EF Core</span>
+    <span class="badge green">AI Predictions</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Auth Section -->
+  <div class="card">
+    <h3>🔐 Authentication</h3>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('login')">Login</button>
+      <button class="tab" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <div id="login-form">
+      <div class="grid">
+        <div class="form-group">
+          <label>Email</label>
+          <input id="login-email" type="email" placeholder="vishnu@test.com" value="vishnu@test.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input id="login-password" type="password" placeholder="••••••••" value="Test1234!">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="login()">Login & Get Token</button>
+    </div>
+
+    <div id="register-form" style="display:none">
+      <div class="grid">
+        <div class="form-group">
+          <label>Username</label>
+          <input id="reg-username" type="text" placeholder="vishnu">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input id="reg-email" type="email" placeholder="vishnu@test.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input id="reg-password" type="password" placeholder="••••••••">
+      </div>
+      <button class="btn btn-primary" onclick="register()">Register</button>
+    </div>
+
+    <div id="auth-result"></div>
+  </div>
+
+  <!-- Predict Section -->
+  <div class="card">
+    <h3>🤖 Create Prediction</h3>
+    <div class="grid">
+      <div class="form-group">
+        <label>Home Team</label>
+        <input id="home-team" type="text" placeholder="Arsenal" value="Arsenal">
+      </div>
+      <div class="form-group">
+        <label>Away Team</label>
+        <input id="away-team" type="text" placeholder="Chelsea" value="Chelsea">
+      </div>
+      <div class="form-group">
+        <label>Sport</label>
+        <input id="sport" type="text" placeholder="Football" value="Football">
+      </div>
+      <div class="form-group">
+        <label>Event Date</label>
+        <input id="event-date" type="text" placeholder="2026-06-01T15:00:00" value="2026-06-01T15:00:00">
+      </div>
+    </div>
+    <button class="btn btn-success" onclick="predict()">⚡ Get AI Prediction</button>
+    <div id="predict-result"></div>
+  </div>
+
+  <!-- Predictions List -->
+  <div class="card">
+    <h3>📊 My Predictions</h3>
+    <button class="btn btn-purple btn-sm" onclick="loadPredictions()" style="margin-bottom:1rem">Refresh</button>
+    <div id="predictions-list"><div class="empty">Login and create a prediction to see results here.</div></div>
+  </div>
+
+</div>
+
+<footer>
+  Built with ❤️ by <a href="https://github.com/vishnu0529" target="_blank">Vishnu</a> · 
+  <a href="https://github.com/vishnu0529/sports-ai-api-csharp" target="_blank">GitHub</a> · 
+  <a href="/swagger" target="_blank">API Docs</a>
+</footer>
+
+<script>
+const API = '';
+let token = '';
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('register-form').style.display = tab === 'register' ? 'block' : 'none';
+}
+
+async function login() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  try {
+    const res = await fetch(API + '/api/Auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      token = data.token;
+      document.getElementById('auth-result').innerHTML = 
+        '<div class="token-display">✅ Logged in as ' + data.username + '<br><br>Token: ' + token.substring(0, 50) + '...</div>';
+      loadPredictions();
+    } else {
+      document.getElementById('auth-result').innerHTML = '<div class="result error">❌ ' + (data.message || 'Login failed') + '</div>';
+    }
+  } catch(e) {
+    document.getElementById('auth-result').innerHTML = '<div class="result error">❌ Connection error</div>';
+  }
+}
+
+async function register() {
+  const username = document.getElementById('reg-username').value;
+  const email = document.getElementById('reg-email').value;
+  const password = document.getElementById('reg-password').value;
+  try {
+    const res = await fetch(API + '/api/Auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, email, password })
+    });
+    const data = await res.json();
+    document.getElementById('auth-result').innerHTML = res.ok 
+      ? '<div class="result success">✅ ' + data.message + ' — Now login!</div>'
+      : '<div class="result error">❌ ' + (data.message || 'Registration failed') + '</div>';
+  } catch(e) {
+    document.getElementById('auth-result').innerHTML = '<div class="result error">❌ Connection error</div>';
+  }
+}
+
+async function predict() {
+  if (!token) { alert('Please login first!'); return; }
+  const homeTeam = document.getElementById('home-team').value;
+  const awayTeam = document.getElementById('away-team').value;
+  const sport = document.getElementById('sport').value;
+  const eventDate = document.getElementById('event-date').value;
+
+  try {
+    const evRes = await fetch(API + '/api/SportEvent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ sport, homeTeam, awayTeam, eventDate })
+    });
+    const ev = await evRes.json();
+    if (!evRes.ok) { 
+      document.getElementById('predict-result').innerHTML = '<div class="result error">❌ ' + JSON.stringify(ev) + '</div>';
+      return;
+    }
+
+    const prRes = await fetch(API + '/api/Prediction', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ sportEventId: ev.id, homeTeam, awayTeam, sport })
+    });
+    const pr = await prRes.json();
+    if (prRes.ok) {
+      document.getElementById('predict-result').innerHTML = 
+        '<div class="result success">' +
+        '<div style="font-size:1.2rem;font-weight:700;color:#10b981;margin-bottom:0.5rem">🏆 ' + pr.predictedOutcome + '</div>' +
+        '<div style="color:#94a3b8;margin-bottom:0.5rem">Confidence: <strong style="color:#f1f5f9">' + pr.confidence + '%</strong></div>' +
+        '<div class="confidence-bar"><div class="confidence-fill" style="width:' + pr.confidence + '%"></div></div>' +
+        '</div>';
+      loadPredictions();
+    } else {
+      document.getElementById('predict-result').innerHTML = '<div class="result error">❌ ' + JSON.stringify(pr) + '</div>';
+    }
+  } catch(e) {
+    document.getElementById('predict-result').innerHTML = '<div class="result error">❌ Connection error</div>';
+  }
+}
+
+async function loadPredictions() {
+  if (!token) return;
+  try {
+    const res = await fetch(API + '/api/Prediction', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data = await res.json();
+    if (res.ok && data.length > 0) {
+      document.getElementById('predictions-list').innerHTML = data.map(p => 
+        '<div class="prediction-card">' +
+        '<div>' +
+        '<div class="teams">' + p.homeTeam + ' vs ' + p.awayTeam + '</div>' +
+        '<div style="color:#64748b;font-size:0.8rem">' + p.sport + ' · ' + new Date(p.createdAt).toLocaleString() + '</div>' +
+        '<div class="confidence-bar" style="width:200px;margin-top:0.4rem"><div class="confidence-fill" style="width:' + p.confidence + '%"></div></div>' +
+        '</div>' +
+        '<div style="text-align:right">' +
+        '<div class="outcome">' + p.predictedOutcome + '</div>' +
+        '<div style="color:#64748b;font-size:0.8rem">' + p.confidence + '% confidence</div>' +
+        '</div>' +
+        '</div>'
+      ).join('');
+    } else {
+      document.getElementById('predictions-list').innerHTML = '<div class="empty">No predictions yet. Create one above!</div>';
+    }
+  } catch(e) {}
+}
+</script>
+</body>
+</html>
