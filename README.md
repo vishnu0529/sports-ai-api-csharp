@@ -75,4 +75,4 @@ Open Swagger UI: http://localhost:5139/swagger
 - [ ] Azure App Service deployment
 
 ## Author
-Vishnu — https://github.com/vishnu0529
+Vishnu · https://github.com/vishnu0529
